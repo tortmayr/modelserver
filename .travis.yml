@@ -15,7 +15,7 @@ deploy:
   skip_cleanup: true
   script: mvn deploy -s ./settings.xml -U -DskipTests -Prelease
   on:
-    branch: master
+    branch: test-branch
 branches:
   only:
-  - master
+  - test-branch
