@@ -8,6 +8,6 @@ mvn clean install
 ## Build and run the standalone jar
 ```bash
 mvn clean install -Pfatjar
-cd com.eclipsesource.modelserver.emf/target/
-java -jar com.eclipsesource.modelserver.emf-X.X.X-SNAPSHOT-standalone.jar
+cd d examples/com.eclipsesource.modelserver.example/target/
+java -jar com.eclipsesource.modelserver.example-X.X.X-SNAPSHOT-standalone.jar
 ```
