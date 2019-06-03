@@ -11,7 +11,6 @@
 
 	<name>modelserver-emf-example</name>
 
-
 	<dependencies>
 		<dependency>
 			<groupId>com.eclipsesource.modelserver</groupId>
@@ -26,7 +25,6 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 
 	<profiles>
 		<profile>

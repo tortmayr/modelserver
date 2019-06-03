@@ -5,8 +5,8 @@
     <artifactId>com.eclipsesource.modelserver.parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.eclipse.emfforms</groupId>
-  <artifactId>org.eclipse.emfforms.coffee.model</artifactId>
+  <groupId>com.eclipsesource.emfforms</groupId>
+  <artifactId>com.eclipsesource.emfforms.coffee.model</artifactId>
   
   <dependencies>
   	<dependency>
