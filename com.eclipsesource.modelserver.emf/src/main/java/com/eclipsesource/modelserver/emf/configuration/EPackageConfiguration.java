@@ -9,7 +9,7 @@ public interface EPackageConfiguration {
 	/**
 	 * Unique identifier for the EPackage (typically the NS-URI)
 	 *
-	 * @returns Id as String
+	 * @return Id as String
 	 */
 	String getId();
 
@@ -31,6 +31,7 @@ public interface EPackageConfiguration {
 	 * Optional ResourceFactory that is needed to load this EPackage from a resource
 	 * with a certain extension
 	 *
+	 * @param extension the file extension
 	 * @return ResourceFactory that is needed for this EPackage or empty optional if
 	 *         the default XMI Factory can be used
 	 */

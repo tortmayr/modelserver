@@ -9,7 +9,11 @@
 	</parent>
 	<artifactId>com.eclipsesource.modelserver.emf</artifactId>
 	<name>modelserver-emf</name>
-
+	
+	<properties>
+		<maven.deploy.skip>false</maven.deploy.skip>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.eclipsesource.modelserver</groupId>
@@ -33,7 +37,7 @@
 		</dependency>
 	</dependencies>
 
-	
+
 
 	<!-- Additional required metadata for deploying releases to mvn central -->
 	<url>https://github.com/eclipsesource/modelserver</url>

@@ -11,7 +11,10 @@
 
 	<name>modelserver-emf-example</name>
 
-
+	<properties>
+		<maven.deploy.skip>false</maven.deploy.skip>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.eclipsesource.modelserver</groupId>
@@ -20,13 +23,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.emfforms</groupId>
-			<artifactId>org.eclipse.emfforms.coffee.model</artifactId>
+			<groupId>com.eclipsesource.emfforms</groupId>
+			<artifactId>com.eclipsesource.emfforms.coffee.model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-
 
 	<profiles>
 		<profile>
