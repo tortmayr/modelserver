@@ -19,7 +19,7 @@ package com.eclipsesource.modelserver.emf;
  * Mock interface for now until more details on concrete API and chosen
  * middleware exists.
  *
- * 
+ *
  */
 public interface ModelServer {
 

@@ -28,38 +28,54 @@ import com.eclipsesource.modelserver.example.util.ResourceUtil;
 import com.google.common.collect.Lists;
 
 public class ExampleServerLauncher {
-	private static String WORKSPACE_ROOT = ".temp/workspace";
+	private static String TEMP_DIR = ".temp";
+	private static String WORKSPACE_ROOT = "workspace";
+	private static String ECORE_TEST_FILE = "Coffe.ecore";
+	private static String COFFEE_TEST_FILE = "SuperBrewer3000";
+	private static String COFFEE_XMI_TEST_FILE = COFFEE_TEST_FILE + ".xmi";
+	private static String COFFEE_JSON_TEST_FILE = COFFEE_TEST_FILE + ".json";
+
 	private static Logger LOG = Logger.getLogger(ExampleServerLauncher.class);
 
 	public static void main(String[] args) throws IOException {
 		BasicConfigurator.configure();
 
 		final ModelServerLauncher launcher = new ModelServerLauncher();
-		final File workspaceRoot = new File(WORKSPACE_ROOT);
+		final File workspaceRoot = new File(TEMP_DIR + "/" + WORKSPACE_ROOT);
 		if (!setupTempTestWorkspace(workspaceRoot)) {
 			LOG.error("Could not setup test workspace");
 			System.exit(0);
 		}
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> cleanupTempTestWorkspace(workspaceRoot)));
 		launcher.setWorkspaceRoot(workspaceRoot.getAbsolutePath());
 		launcher.setModules(Lists.newArrayList(new ExampleModelServerModule()));
 		launcher.start();
 
 		final ModelServer server = launcher.getInjector().getInstance(ModelServer.class);
 		server.initialize();
-		server.loadModel("SuperBrewer3000.xmi");
+		server.loadModel(ECORE_TEST_FILE);
+
 	}
 
 	private static boolean setupTempTestWorkspace(File workspaceRoot) throws IOException {
-		if (workspaceRoot.exists()) {
-			FileUtils.deleteDirectory(workspaceRoot);
-		}
-		workspaceRoot.mkdirs();
-		boolean result = ResourceUtil.copyFromResource("workspace/Coffe.ecore", new File(workspaceRoot, "Coffe.ecore"));
-		result = result && ResourceUtil.copyFromResource("workspace/SuperBrewer3000.xmi",
-				new File(workspaceRoot, "SuperBrewer3000.xmi"));
-		result = result && ResourceUtil.copyFromResource("workspace/SuperBrewer3000.json",
-				new File(workspaceRoot, "SuperBrewer3000.json"));
+		boolean result = workspaceRoot.mkdirs();
+		result = ResourceUtil.copyFromResource(WORKSPACE_ROOT + "/" + ECORE_TEST_FILE,
+				new File(workspaceRoot, ECORE_TEST_FILE));
+		result = result && ResourceUtil.copyFromResource(WORKSPACE_ROOT + "/" + COFFEE_XMI_TEST_FILE,
+				new File(workspaceRoot, COFFEE_XMI_TEST_FILE));
+		result = result && ResourceUtil.copyFromResource(WORKSPACE_ROOT + "/" + COFFEE_JSON_TEST_FILE,
+				new File(workspaceRoot, COFFEE_JSON_TEST_FILE));
 		return result;
+	}
+
+	private static void cleanupTempTestWorkspace(File workspaceRoot) {
+		if (workspaceRoot.exists()) {
+			try {
+				FileUtils.deleteDirectory(workspaceRoot);
+			} catch (IOException e) {
+				LOG.warn(e);
+			}
+		}
 	}
 
 }

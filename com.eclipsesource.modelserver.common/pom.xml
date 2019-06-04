@@ -6,6 +6,7 @@
 		<groupId>com.eclipsesource.modelserver</groupId>
 		<artifactId>com.eclipsesource.modelserver.parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../</relativePath>
 	</parent>
 	<artifactId>com.eclipsesource.modelserver.common</artifactId>
 	<name>modelserver-common</name>

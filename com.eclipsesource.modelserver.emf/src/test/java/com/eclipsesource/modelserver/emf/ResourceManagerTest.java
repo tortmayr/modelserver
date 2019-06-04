@@ -32,7 +32,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.eclipsesource.modelserver.emf.di.EMFModelServerModule;
-import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -41,7 +40,7 @@ public class ResourceManagerTest extends AbstractResourceTest {
 	private static ResourceManager resourceManager;
 
 	@BeforeClass
-	public static void setupBeforeClass() {
+	public static void beforeClass() {
 		Injector injector = Guice.createInjector(new EMFModelServerModule());
 		resourceManager = injector.getInstance(ResourceManager.class);
 	}
@@ -50,7 +49,6 @@ public class ResourceManagerTest extends AbstractResourceTest {
 	public void testLoadModel_castToExactType() {
 		String resourceURI = toFullPath("Test1.ecore");
 		Optional<EPackage> result = resourceManager.loadModel(resourceURI, resourceSet, EPackage.class);
-		resourceManager.saveAs(Lists.newArrayList(result.get()), toFullPath("Test1.json"));
 		assertNotNull(result);
 		assertTrue(result.isPresent());
 		assertEquals("test1", result.get().getName());

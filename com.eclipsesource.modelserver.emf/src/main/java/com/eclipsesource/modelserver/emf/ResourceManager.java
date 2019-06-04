@@ -37,7 +37,7 @@ import com.google.inject.Inject;
 
 /**
  * Injectable singleton class that provides helper methods for managing
- * (load,save...) of EMF resources.
+ * (load,save...) EMF resources.
  *
  */
 public class ResourceManager {
@@ -59,7 +59,7 @@ public class ResourceManager {
 		Map<String, Object> map = Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap();
 		// register default ResourceFactories (XMI and JSON)
 		map.put("*", new XMIResourceFactoryImpl());
-		map.put("json", new JsonResourceFactory(EmfJsonConverter.setupDefaultMapper()));
+		map.put("json", new JsonResourceFactory(EMFJsonConverter.setupDefaultMapper()));
 		// register additional ResourceFactories
 		configurations.forEach(conf -> map.putAll(registerExtensions(conf)));
 
@@ -91,7 +91,7 @@ public class ResourceManager {
 
 	public <T extends EObject> Optional<T> loadModel(URI resourceURI, ResourceSet rs, Class<T> clazz) {
 		Optional<Resource> res = loadResource(resourceURI, rs);
-		if (res.isPresent() && res.get().getContents().size() > 0) {
+		if (res.isPresent() && !res.get().getContents().isEmpty()) {
 			EObject root = res.get().getContents().get(0);
 			if (clazz.isInstance(root)) {
 				return Optional.of(clazz.cast(root));
@@ -113,8 +113,7 @@ public class ResourceManager {
 				resource.save(Collections.EMPTY_MAP);
 				return true;
 			} catch (IOException e) {
-				LOG.error("Could not save resource: " + resource.getURI());
-				e.printStackTrace();
+				LOG.error("Could not save resource: " + resource.getURI(), e);
 			}
 		}
 		return false;

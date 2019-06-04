@@ -22,7 +22,7 @@ import com.eclipsesource.modelserver.emf.EMFModelServer;
 import com.eclipsesource.modelserver.emf.ModelServer;
 import com.eclipsesource.modelserver.emf.ResourceManager;
 import com.eclipsesource.modelserver.emf.configuration.EPackageConfiguration;
-import com.eclipsesource.modelserver.emf.configuration.EcoreConfiguration;
+import com.eclipsesource.modelserver.emf.configuration.EcorePackageConfiguration;
 import com.eclipsesource.modelserver.emf.configuration.ServerConfiguration;
 import com.google.common.collect.Lists;
 import com.google.inject.AbstractModule;
@@ -46,6 +46,6 @@ public class EMFModelServerModule extends AbstractModule {
 	}
 
 	protected Collection<Class<? extends EPackageConfiguration>> bindEPackageConfigurations() {
-		return Lists.newArrayList(EcoreConfiguration.class);
+		return Lists.newArrayList(EcorePackageConfiguration.class);
 	}
 }
