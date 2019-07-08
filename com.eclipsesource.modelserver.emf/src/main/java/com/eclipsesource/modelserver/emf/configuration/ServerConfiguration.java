@@ -15,6 +15,8 @@
  ********************************************************************************/
 package com.eclipsesource.modelserver.emf.configuration;
 
+import java.io.File;
+
 import com.eclipsesource.modelserver.emf.launch.ModelServerLauncher;
 
 /**
@@ -31,7 +33,7 @@ public class ServerConfiguration {
 	}
 
 	public void setWorkspaceRoot(String workspaceRoot) {
-		this.workspaceRoot = workspaceRoot;
+		this.workspaceRoot = toFilePath(workspaceRoot);
 	}
 
 	public int getServerPort() {
@@ -40,6 +42,23 @@ public class ServerConfiguration {
 
 	public void setServerPort(int serverPort) {
 		this.serverPort = serverPort;
+	}
+
+	public static boolean isValidWorkspaceRoot(String fileUrl) {
+		if (fileUrl != null) {
+			File file = new File(toFilePath(fileUrl));
+			return file.exists();
+		}
+		return false;
+	}
+
+	public static boolean isValidPort(Integer port) {
+		return port >= 0 || port <= 65535;
+
+	}
+
+	private static String toFilePath(String url) {
+		return url.replace("file://", "");
 	}
 
 }
