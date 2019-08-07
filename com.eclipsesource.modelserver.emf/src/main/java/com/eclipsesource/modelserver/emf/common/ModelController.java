@@ -163,21 +163,20 @@ public class ModelController {
 		return resource.map(r -> r.getContents().isEmpty() ? null : r.getContents().get(0));
 	}
 
-	public void executeCommand(Context ctx, String modelURI) {
-		this.modelRepository.getModel(modelURI).ifPresentOrElse(
+	public void executeCommand(Context ctx, String modeluri) {
+		this.modelRepository.getModel(modeluri).ifPresentOrElse(
 				model -> {
 					if (model == null) {
-						handleError(ctx, 404, String.format("Model '%s' not found!", modelURI));
+						handleError(ctx, 404, String.format("Model '%s' not found!", modeluri));
 					} else {
-						try {
 							String commandURI = "command$1.command";
 							Optional<Resource> resource = readResource(ctx, commandURI);
 							getContents(resource).filter(CCommand.class::isInstance)//
 									.map(CCommand.class::cast) //
 									.ifPresent(cmd -> {
 										try {
-											modelRepository.updateModel(modelURI, cmd);
-											sessionController.modelChanged(modelURI, cmd);
+											modelRepository.updateModel(modeluri, cmd);
+											sessionController.modelChanged(modeluri, cmd);
 											ctx.json(JsonResponse.success());
 										} catch (DecodingException e) {
 											handleDecodingError(ctx, e);
@@ -186,13 +185,11 @@ public class ModelController {
 											resource.get().getResourceSet().getResources().remove(resource.get());
 										}
 									});
-							ctx.json(JsonResponse.data(codecs.encode(ctx, model)));
-						} catch (EncodingException ex) {
-							handleEncodingError(ctx, ex);
-						}
+							ctx.json(JsonResponse.confirm("Model '" + modeluri + "' successfully updated"));
+
 					}
 				},
-				() -> handleError(ctx, 404, String.format("Model '%s' not found!", modelURI))
+				() -> handleError(ctx, 404, String.format("Model '%s' not found!", modeluri))
 			);
 	}
 	

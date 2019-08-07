@@ -15,6 +15,7 @@
  *******************************************************************************/
 package com.eclipsesource.modelserver.client;
 
+import com.eclipsesource.modelserver.command.CCommand;
 import com.eclipsesource.modelserver.common.ModelServerPaths;
 import com.eclipsesource.modelserver.common.codecs.DecodingException;
 import com.eclipsesource.modelserver.common.codecs.DefaultJsonCodec;
@@ -249,6 +250,30 @@ public class ModelServerClient implements ModelServerClientApi<EObject>, ModelSe
             .thenApply(this::getBodyOrThrow)
             .thenApply(response -> response.mapBody(body -> body.equals("success")));
     }
+    
+	@Override
+	public CompletableFuture<Response<Boolean>> edit(String modelUri, CCommand command) {
+        final Request request = new Request.Builder()
+            .url(
+                createHttpUrlBuilder(makeUrl(MODEL_BASE_PATH))
+                    .addQueryParameter("modeluri", modelUri)
+                    .build()
+            )
+            .patch(
+                RequestBody.create(
+                    Json.object(
+                        Json.prop("data", Json.text(encode(EcoreUtil.copy(command))))
+                    ).toString(),
+                    MediaType.parse("application/json")
+                )
+            )
+            .build();
+        return makeCall(request)
+                .thenApply(response -> parseField(response, "type"))
+                .thenApply(this::getBodyOrThrow)
+                .thenApply(response -> response.mapBody(body -> body.equals("confirm")));
+	}
+    
 
     @Override
     public void subscribe(String modelUri, SubscriptionListener subscriptionListener) {
@@ -441,5 +466,4 @@ public class ModelServerClient implements ModelServerClientApi<EObject>, ModelSe
     	}
         return false;
     }
-    
 }
