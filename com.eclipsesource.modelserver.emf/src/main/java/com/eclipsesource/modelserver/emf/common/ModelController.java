@@ -192,7 +192,8 @@ public class ModelController {
 									.map(CCommand.class::cast) //
 									.ifPresent(cmd -> {
 										try {
-											modelRepository.updateModel(modelURI, cmd);
+											CCommand copyCommand= EcoreUtil.copy(cmd);
+											modelRepository.updateModel(modelURI, copyCommand);
 											sessionController.modelChanged(modelURI, cmd);
 											ctx.json(JsonResponse.success());
 										} catch (DecodingException e) {
